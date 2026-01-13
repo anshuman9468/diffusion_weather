@@ -1,7 +1,7 @@
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
 
 class DiffusionModel(nn.Module):
     def __init__(self, channels_in, channels_out, aux_channels=0, model_channels=64):
@@ -14,7 +14,9 @@ class DiffusionModel(nn.Module):
         self.total_input_channels = channels_in + aux_channels
 
         # Initial projection
-        self.conv_in = nn.Conv2d(self.total_input_channels, model_channels, kernel_size=3, padding=1)
+        self.conv_in = nn.Conv2d(
+            self.total_input_channels, model_channels, kernel_size=3, padding=1
+        )
 
         # Simple backbone (placeholder for a real U-Net)
         self.layer1 = nn.Sequential(
@@ -48,11 +50,15 @@ class DiffusionModel(nn.Module):
                 # If auxiliary channels are expected but not provided, pad with zeros.
                 # This ensures backward compatibility and allows default conditioning=None.
                 b, _, h, w = x.shape
-                conditioning = torch.zeros((b, self.aux_channels, h, w), device=x.device, dtype=x.dtype)
+                conditioning = torch.zeros(
+                    (b, self.aux_channels, h, w), device=x.device, dtype=x.dtype
+                )
 
             # Concatenate along channel dimension
             if conditioning.shape[1] != self.aux_channels:
-                 raise ValueError(f"Expected conditioning to have {self.aux_channels} channels, but got {conditioning.shape[1]}")
+                raise ValueError(
+                    f"Expected conditioning to have {self.aux_channels} channels, but got {conditioning.shape[1]}"
+                )
 
             x = torch.cat([x, conditioning], dim=1)
 

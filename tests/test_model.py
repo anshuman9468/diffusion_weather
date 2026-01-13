@@ -2,6 +2,7 @@ import torch
 import unittest
 from diffusion_weather.models import DiffusionModel
 
+
 class TestDiffusionModel(unittest.TestCase):
     def test_initialization(self):
         model = DiffusionModel(channels_in=3, channels_out=3, aux_channels=0)
@@ -32,9 +33,10 @@ class TestDiffusionModel(unittest.TestCase):
     def test_shape_mismatch(self):
         model = DiffusionModel(channels_in=3, channels_out=3, aux_channels=2)
         x = torch.randn(1, 3, 32, 32)
-        cond = torch.randn(1, 1, 32, 32) # Wrong channels
+        cond = torch.randn(1, 1, 32, 32)  # Wrong channels
         with self.assertRaises(ValueError):
             model(x, conditioning=cond)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
