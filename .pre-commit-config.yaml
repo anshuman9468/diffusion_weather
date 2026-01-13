@@ -1,5 +1,5 @@
 default_language_version:
-  python: python3
+  python: python3.11
 
 ci:
   skip: [pydocstyle, flake8]
@@ -42,8 +42,10 @@ repos:
   - repo: https://github.com/PyCQA/isort
     rev: 5.10.1
     hooks:
-      - id: isort
-        args: [--profile, black, --line-length, "100", "graph_weather"]
+    - id: isort
+      skip_install: true
+      args: [--profile, black, --line-length, "100", "graph_weather"]
+
   - repo: https://github.com/psf/black
     rev: 22.1.0
     hooks:
